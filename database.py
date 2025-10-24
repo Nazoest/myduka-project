@@ -16,8 +16,8 @@ def insert_products(values):
     curr.execute(query,values)
     conn.commit()
 
-new_product=('maize',120,150)
-insert_products(new_product)
+#new_product=('maize',120,150)
+#insert_products(new_product)
 
 def insert_sales(values):
     query="insert into sales(pid,quantity,created_at)values(%s,%s,now());"
@@ -49,8 +49,8 @@ def get_sales_per_product():
     sales_per_product=curr.fetchall()
     return sales_per_product
 
-sales=get_sales_per_product()
-print(sales)
+#sales=get_sales_per_product()
+#print(sales)
 
 
 """ def get_sales():
@@ -64,9 +64,9 @@ def fetch_data(table_name):
     curr.execute(query)
     data=curr.fetchall()
     return data
-sales=fetch_data("sales")
-products=fetch_data("products")
-stock=fetch_data("stock")
+#sales=fetch_data("sales")
+#products=fetch_data("products")
+#stock=fetch_data("stock")
 #print(products)
 #print(stock)
 #print(sales)
@@ -87,8 +87,3 @@ def get_sales_per_product():
     curr.execute("SELECT products.id AS product_id,p.name AS product_name, SUM(p.selling_price * s.quantity) AS total_sales FROM sales s JOIN products p ON s.pid = p.id GROUP BY p.id, p.name ORDER BY total_sales DESC;")
     sales_per_product=curr.fetchall()
     return sales_per_product
-
-
-
-
-
