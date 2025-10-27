@@ -19,15 +19,16 @@
         </tr>
       </thead>
       <tbody>
+        {% for stock in stock %}
         <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>23</td>
-          <td>2025/8</td>
+          <td>{{stock[0]}}</td>
+          <td>{{stock[1]}}</td>
+          <td>{{stock[2]}}</td>
+          <td>{{stock[3]}}</td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
-    {{stock}}
 </div>
   </div>
 </div>

@@ -20,16 +20,17 @@
         </tr>
       </thead>
       <tbody>
+        {% for products in myproducts %}
         <tr>
-            <td>1</td>
-            <td>Maize</td>
-            <td>100</td>
-            <td>200</td>
+            <td>{{products[0]}}</td>
+            <td>{{products[1]}}</td>
+            <td>{{products[2]}}</td>
+            <td>{{products[3]}}</td>
 
         </tr>
+        {% endfor%}
       </tbody>
     </table>
-              {{myproducts}}
 
   </div>
 </div>
