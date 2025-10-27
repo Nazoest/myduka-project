@@ -18,12 +18,12 @@ def prods():
 def sales():
     sales=fetch_data('sales')
     print(sales)
-    return render_template('sales.html')
+    return render_template('sales.html',sales=sales)
 
 @app.route('/stock')
 def stock():
     stock=fetch_data('stock')
     print(stock)
-    return render_template('stock.html')
+    return render_template('stock.html',stock=stock)
 
 app.run(debug=True)
