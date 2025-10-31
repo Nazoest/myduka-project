@@ -84,6 +84,6 @@ def get_profit_per_product():
     return profit_per_product
 
 def get_sales_per_product():
-    curr.execute("SELECT products.id AS product_id,p.name AS product_name, SUM(p.selling_price * s.quantity) AS total_sales FROM sales s JOIN products p ON s.pid = p.id GROUP BY p.id, p.name ORDER BY total_sales DESC;")
+    curr.execute("SELECT p.id AS product_id,p.name AS product_name, SUM(p.selling_price * s.quantity) AS total_sales FROM sales s JOIN products p ON s.pid = p.id GROUP BY p.id, p.name ORDER BY total_sales DESC;")
     sales_per_product=curr.fetchall()
     return sales_per_product
