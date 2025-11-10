@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+{%block links %}
+<link rel="stylesheet" href="../static/css/login.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="p-4 w-75 mt-5">
+<form action="/login" method="post">
+  <div class="mb-3 w-75"  >
+    <label for="exampleInputEmail1"  class="form-label">Email address</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3 w-75">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="mb-3 form-check">
+  </div>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form></div>
+
+
+</div>
+{% endblock %}
+          

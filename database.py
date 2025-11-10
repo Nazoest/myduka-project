@@ -16,6 +16,11 @@ def insert_products(values):
     curr.execute(query,values)
     conn.commit()
 
+def update_product(values):
+    query = "UPDATE products SET name = %s, buying_price = %s, selling_price = %s WHERE id = %s;"
+    curr.execute(query, values)
+    conn.commit()
+
 #new_product=('maize',120,150)
 #insert_products(new_product)
 
@@ -27,6 +32,12 @@ def insert_sales(values):
 new_sale=(1,45)
 #insert_sales(new_sale)
 
+def check_email(email):
+    query="select * from users where email=%s;"
+    curr.execute(query,(email,))
+    user=curr.fetchone()
+    return user
+
 def insert_stock(values):
     query="insert into stock(pid,stock_quantity,created_at)values(%s,%s,now());"
     curr.execute(query,values)
@@ -34,6 +45,20 @@ def insert_stock(values):
 
 new_stock=(1,12)
 #insert_stock(new_stock)
+
+def get_sales_per_day():
+    query="SELECT DATE(s.created_at) AS sale_date,SUM(p.selling_price * s.quantity) AS total_sales FROM sales as s JOIN products as p ON s.pid = p.id GROUP BY DATE(s.created_at) ORDER BY sale_date;"
+    curr.execute(query)
+    sales_per_day=curr.fetchall()
+    return sales_per_day
+
+
+def get_profit_per_day():
+    query="SELECT DATE(s.created_at) AS sale_date,SUM((p.selling_price - p.buying_price) * s.quantity) AS total_profit FROM sales as s JOIN products as p ON s.pid = p.id GROUP BY DATE(s.created_at) ORDER BY sale_date;"
+    curr.execute(query)
+    profit_per_day=curr.fetchall()
+    return profit_per_day
+
 
 def get_profit_per_product():
     query="SELECT p.id AS product_id,p.name AS product_name,SUM((p.selling_price - p.buying_price) * s.quantity) AS total_profit FROM sales s JOIN products p ON s.pid = p.id GROUP BY p.id, p.name;"
@@ -84,6 +109,12 @@ def get_profit_per_product():
     return profit_per_product
 
 def get_sales_per_product():
-    curr.execute("SELECT p.id AS product_id,p.name AS product_name, SUM(p.selling_price * s.quantity) AS total_sales FROM sales s JOIN products p ON s.pid = p.id GROUP BY p.id, p.name ORDER BY total_sales DESC;")
+    query="SELECT p.id AS product_id,p.name AS product_name, SUM(p.selling_price * s.quantity) AS total_sales FROM sales s JOIN products p ON s.pid = p.id GROUP BY p.id, p.name ORDER BY total_sales DESC;"
+    curr.execute(query)
     sales_per_product=curr.fetchall()
     return sales_per_product
+
+def insert_user(user_details) : 
+    query="insert into users(full_name, email, password) values(%s,%s,%s)"
+    curr.execute(query,user_details) 
+    conn.commit()
