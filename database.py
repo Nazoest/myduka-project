@@ -21,6 +21,11 @@ def update_product(values):
     curr.execute(query, values)
     conn.commit()
 
+def remove_product(pid):
+    query="delete from products where id=%s;"
+    curr.execute(query,(pid,))
+    conn.commit()
+
 #new_product=('maize',120,150)
 #insert_products(new_product)
 

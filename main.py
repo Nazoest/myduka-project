@@ -1,12 +1,23 @@
 from functools import wraps
 from flask import Flask, redirect,render_template, request, session, url_for,flash
 from flask_bcrypt import Bcrypt
-from database import fetch_data, get_profit_per_day, get_profit_per_product, get_sales_per_day, get_sales_per_product, insert_products,insert_sales,insert_stock,insert_user,check_email, update_product
+from database import fetch_data, get_profit_per_day, get_profit_per_product, get_sales_per_day, get_sales_per_product, insert_products,insert_sales,insert_stock,insert_user,check_email, remove_product, update_product
 
 #instance of flask class
 app=Flask(__name__)
 app.secret_key='sdfgyhui'
 bcrypt=Bcrypt(app)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    print("404 error encountered:", e)
+    return render_template('404.html'),404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    print("500 error encountered:", e)
+    return render_template('500.html'),500
+
 
 def login_required(f):
     @wraps(f)
@@ -47,7 +58,16 @@ def edit_product():
         sp=request.form["selling_price"]
         new_product = (pname,bp, sp,pid)
         update_product(new_product)
+        flash("Product updated successfully","success")
 
+    return redirect(url_for('prods'))
+
+@app.route('/delete_product',methods=['POST'])
+def delete_product():
+    if request.method=='POST':
+        pid=request.form['product_id']
+        remove_product(pid)
+        flash("Product deleted successfully","success")
     return redirect(url_for('prods'))
 
 @app.route('/add_sales',methods=['GET','POST'])
@@ -58,6 +78,7 @@ def add_sales():
         new_sale = (pid,quantity)
         print(new_sale)
         insert_sales(new_sale)
+        flash("Sale added successfully","success")
 
     return redirect(url_for('sales'))
 
@@ -68,6 +89,7 @@ def add_stock():
         quantity=request.form["stock_quantity"]
         new_stock = (pid,quantity)
         insert_stock(new_stock)
+        flash("Stock added successfully","success")
 
     return redirect(url_for('stock'))
 
@@ -134,7 +156,7 @@ def login():
                 flash("Login Successful","success")
                 return redirect(url_for('dashboard'))
             else:
-                return "Incorrect password. Please try again."
+                flash("Incorrect password. Please try again.","danger")
             
     return render_template('login.html')
 
@@ -152,6 +174,7 @@ def register():
         print(new_user)
         insert_user(new_user)
         print("User registered successfully.")
+        flash("Registration Successful. Please login.","success")
         return redirect(url_for('login'))
 
     return render_template('register.html')
